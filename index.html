@@ -43,10 +43,6 @@
       z-index: 1;
     }
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
     .dropdown-item {
       padding: 8px;
       display: flex;
@@ -78,9 +74,9 @@
 </head>
 <body>
 
-  <div class="dropdown">
+  <div class="dropdown" id="dropdown">
     <button class="dropbtn">▼</button>
-    <div class="dropdown-content">
+    <div class="dropdown-content" id="dropdownMenu">
       <div class="dropdown-item">
         Project Alpha <a href="#" class="preview-link" data-preview="alpha">Visit</a>
       </div>
@@ -99,6 +95,24 @@
   <div class="preview-box" id="gamma">Gamma Preview</div>
 
   <script>
+    const dropdown = document.getElementById("dropdown");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    let hideTimeout;
+
+    // Show menu on hover
+    dropdown.addEventListener("mouseenter", () => {
+      clearTimeout(hideTimeout);
+      dropdownMenu.style.display = "block";
+    });
+
+    // Hide menu after 3s if mouse leaves
+    dropdown.addEventListener("mouseleave", () => {
+      hideTimeout = setTimeout(() => {
+        dropdownMenu.style.display = "none";
+      }, 3000);
+    });
+
+    // Handle preview
     const previewLinks = document.querySelectorAll(".preview-link");
     const previews = document.querySelectorAll(".preview-box");
 
@@ -124,7 +138,7 @@
 
         setTimeout(() => {
           previewBox.style.display = "none";
-        }, 3000); // stays visible for 3 seconds
+        }, 3000);
       });
     });
   </script>
