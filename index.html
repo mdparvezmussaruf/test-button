@@ -3,31 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropdown with Hover Image Preview</title>
+  <title>Dropdown with Visit Preview</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 50px;
-      text-align: center;
-    }
-
-    /* Small round button */
-    .dropdown-btn {
-      background: #e5e7eb;
-      border: none;
-      padding: 8px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-      transition: background 0.2s;
-    }
-    .dropdown-btn:hover {
-      background: #d1d5db;
-    }
-    .dropdown-btn svg {
-      width: 16px;
-      height: 16px;
-      fill: #374151;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f9f9f9;
     }
 
     .dropdown {
@@ -35,136 +20,112 @@
       display: inline-block;
     }
 
-    /* Dropdown menu */
+    .dropbtn {
+      padding: 10px;
+      border: none;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
     .dropdown-content {
       display: none;
       position: absolute;
-      top: 100%;
+      top: 50px;
       left: 50%;
       transform: translateX(-50%);
-      margin-top: 8px;
-      background: #fff;
-      min-width: 220px;
-      border: 1px solid #ddd;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      z-index: 1000;
-      padding: 8px 0;
+      padding: 10px;
+      z-index: 1;
     }
 
-    .dropdown-content div {
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 6px 12px;
-      font-size: 14px;
-      color: #111;
-      transition: background 0.2s;
-      position: relative;
-    }
-    .dropdown-content div:hover {
-      background: #f3f4f6;
     }
 
-    .dropdown-content a {
-      font-size: 12px;
-      color: #2563eb;
+    .dropdown-item a {
+      color: blue;
       text-decoration: none;
-      position: relative;
+      font-size: 14px;
     }
-    .dropdown-content a:hover {
+
+    .dropdown-item a:hover {
       text-decoration: underline;
     }
 
-    /* Image preview tooltip */
-    .preview {
+    .preview-box {
       display: none;
       position: absolute;
-      top: 50%;
-      left: 105%;
-      transform: translateY(-50%);
-      border: 1px solid #ddd;
-      background: #fff;
-      padding: 4px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      left: 110%;
+      width: 150px;
+      padding: 10px;
+      background: white;
       border-radius: 6px;
-      z-index: 2000;
-    }
-    .preview img {
-      max-width: 200px;
-      max-height: 120px;
-      border-radius: 4px;
-    }
-
-    /* Only show preview when hovering Visit link */
-    .dropdown-content a:hover + .preview {
-      display: block;
-    }
-
-    /* Visible menu class */
-    .show {
-      display: block;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
 
   <div class="dropdown">
-    <button class="dropdown-btn" id="dropdownBtn">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M7 10l5 5 5-5z"/>
-      </svg>
-    </button>
-
-    <div class="dropdown-content" id="dropdownMenu">
-      <div>
-        <span>Project Alpha</span>
-        <a href="https://example.com/alpha" target="_blank">Visit</a>
-        <div class="preview">
-          <img src="https://via.placeholder.com/200x120.png?text=Alpha+Preview" alt="Alpha Preview">
-        </div>
+    <button class="dropbtn">▼</button>
+    <div class="dropdown-content">
+      <div class="dropdown-item">
+        Project Alpha <a href="#" class="preview-link" data-preview="alpha">Visit</a>
       </div>
-      <div>
-        <span>Project Beta</span>
-        <a href="https://example.com/beta" target="_blank">Visit</a>
-        <div class="preview">
-          <img src="https://via.placeholder.com/200x120.png?text=Beta+Preview" alt="Beta Preview">
-        </div>
+      <div class="dropdown-item">
+        Project Beta <a href="#" class="preview-link" data-preview="beta">Visit</a>
       </div>
-      <div>
-        <span>Project Gamma</span>
-        <a href="https://example.com/gamma" target="_blank">Visit</a>
-        <div class="preview">
-          <img src="https://via.placeholder.com/200x120.png?text=Gamma+Preview" alt="Gamma Preview">
-        </div>
+      <div class="dropdown-item">
+        Project Gamma <a href="#" class="preview-link" data-preview="gamma">Visit</a>
       </div>
     </div>
   </div>
 
+  <!-- Previews -->
+  <div class="preview-box" id="alpha">Alpha Preview</div>
+  <div class="preview-box" id="beta">Beta Preview</div>
+  <div class="preview-box" id="gamma">Gamma Preview</div>
+
   <script>
-    const btn = document.getElementById("dropdownBtn");
-    const menu = document.getElementById("dropdownMenu");
-    let hideTimeout;
+    const previewLinks = document.querySelectorAll(".preview-link");
+    const previews = document.querySelectorAll(".preview-box");
 
-    btn.addEventListener("mouseenter", () => {
-      clearTimeout(hideTimeout);
-      menu.classList.add("show");
-    });
+    previewLinks.forEach(link => {
+      link.addEventListener("mouseenter", () => {
+        const targetId = link.getAttribute("data-preview");
+        const previewBox = document.getElementById(targetId);
 
-    btn.addEventListener("mouseleave", () => {
-      hideTimeout = setTimeout(() => {
-        menu.classList.remove("show");
-      }, 3000);
-    });
+        // hide all previews first
+        previews.forEach(p => p.style.display = "none");
 
-    menu.addEventListener("mouseenter", () => {
-      clearTimeout(hideTimeout);
-    });
+        // get link position
+        const rect = link.getBoundingClientRect();
+        const dropdownRect = link.closest(".dropdown").getBoundingClientRect();
 
-    menu.addEventListener("mouseleave", () => {
-      hideTimeout = setTimeout(() => {
-        menu.classList.remove("show");
-      }, 3000);
+        previewBox.style.top = (rect.top - dropdownRect.top) + "px";
+        previewBox.style.display = "block";
+      });
+
+      link.addEventListener("mouseleave", () => {
+        const targetId = link.getAttribute("data-preview");
+        const previewBox = document.getElementById(targetId);
+
+        setTimeout(() => {
+          previewBox.style.display = "none";
+        }, 3000); // stays visible for 3 seconds
+      });
     });
   </script>
 
