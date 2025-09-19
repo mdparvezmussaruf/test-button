@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropdown with Hover Preview</title>
+  <title>Dropdown with Hover Image Preview</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
       text-align: center;
     }
 
-    /* Button style */
+    /* Small round button */
     .dropdown-btn {
       background: #e5e7eb;
       border: none;
@@ -21,11 +21,9 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       transition: background 0.2s;
     }
-
     .dropdown-btn:hover {
       background: #d1d5db;
     }
-
     .dropdown-btn svg {
       width: 16px;
       height: 16px;
@@ -55,7 +53,6 @@
     }
 
     .dropdown-content div {
-      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -63,8 +60,8 @@
       font-size: 14px;
       color: #111;
       transition: background 0.2s;
+      position: relative;
     }
-
     .dropdown-content div:hover {
       background: #f3f4f6;
     }
@@ -73,13 +70,13 @@
       font-size: 12px;
       color: #2563eb;
       text-decoration: none;
+      position: relative;
     }
-
     .dropdown-content a:hover {
       text-decoration: underline;
     }
 
-    /* Preview tooltip */
+    /* Image preview tooltip */
     .preview {
       display: none;
       position: absolute;
@@ -93,19 +90,18 @@
       border-radius: 6px;
       z-index: 2000;
     }
-
     .preview img {
       max-width: 200px;
       max-height: 120px;
       border-radius: 4px;
     }
 
-    /* Show on hover */
-    .dropdown-content div:hover .preview {
+    /* Only show preview when hovering Visit link */
+    .dropdown-content a:hover + .preview {
       display: block;
     }
 
-    /* Visible class */
+    /* Visible menu class */
     .show {
       display: block;
     }
@@ -119,26 +115,27 @@
         <path d="M7 10l5 5 5-5z"/>
       </svg>
     </button>
+
     <div class="dropdown-content" id="dropdownMenu">
       <div>
         <span>Project Alpha</span>
         <a href="https://example.com/alpha" target="_blank">Visit</a>
         <div class="preview">
-          <img src="https://via.placeholder.com/200x120.png?text=Alpha+Preview" alt="Project Alpha Preview">
+          <img src="https://via.placeholder.com/200x120.png?text=Alpha+Preview" alt="Alpha Preview">
         </div>
       </div>
       <div>
         <span>Project Beta</span>
         <a href="https://example.com/beta" target="_blank">Visit</a>
         <div class="preview">
-          <img src="https://via.placeholder.com/200x120.png?text=Beta+Preview" alt="Project Beta Preview">
+          <img src="https://via.placeholder.com/200x120.png?text=Beta+Preview" alt="Beta Preview">
         </div>
       </div>
       <div>
         <span>Project Gamma</span>
         <a href="https://example.com/gamma" target="_blank">Visit</a>
         <div class="preview">
-          <img src="https://via.placeholder.com/200x120.png?text=Gamma+Preview" alt="Project Gamma Preview">
+          <img src="https://via.placeholder.com/200x120.png?text=Gamma+Preview" alt="Gamma Preview">
         </div>
       </div>
     </div>
