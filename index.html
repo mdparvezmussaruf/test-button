@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropdown Button with Delay</title>
+  <title>Dropdown with Hover Preview</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,13 +32,12 @@
       fill: #374151;
     }
 
-    /* Dropdown wrapper */
     .dropdown {
       position: relative;
       display: inline-block;
     }
 
-    /* Dropdown content */
+    /* Dropdown menu */
     .dropdown-content {
       display: none;
       position: absolute;
@@ -47,7 +46,7 @@
       transform: translateX(-50%);
       margin-top: 8px;
       background: #fff;
-      min-width: 200px;
+      min-width: 220px;
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -56,6 +55,7 @@
     }
 
     .dropdown-content div {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -79,6 +79,32 @@
       text-decoration: underline;
     }
 
+    /* Preview tooltip */
+    .preview {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 105%;
+      transform: translateY(-50%);
+      border: 1px solid #ddd;
+      background: #fff;
+      padding: 4px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      z-index: 2000;
+    }
+
+    .preview img {
+      max-width: 200px;
+      max-height: 120px;
+      border-radius: 4px;
+    }
+
+    /* Show on hover */
+    .dropdown-content div:hover .preview {
+      display: block;
+    }
+
     /* Visible class */
     .show {
       display: block;
@@ -89,7 +115,6 @@
 
   <div class="dropdown">
     <button class="dropdown-btn" id="dropdownBtn">
-      <!-- Downward arrow (SVG) -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M7 10l5 5 5-5z"/>
       </svg>
@@ -98,14 +123,23 @@
       <div>
         <span>Project Alpha</span>
         <a href="https://example.com/alpha" target="_blank">Visit</a>
+        <div class="preview">
+          <img src="https://via.placeholder.com/200x120.png?text=Alpha+Preview" alt="Project Alpha Preview">
+        </div>
       </div>
       <div>
         <span>Project Beta</span>
         <a href="https://example.com/beta" target="_blank">Visit</a>
+        <div class="preview">
+          <img src="https://via.placeholder.com/200x120.png?text=Beta+Preview" alt="Project Beta Preview">
+        </div>
       </div>
       <div>
         <span>Project Gamma</span>
         <a href="https://example.com/gamma" target="_blank">Visit</a>
+        <div class="preview">
+          <img src="https://via.placeholder.com/200x120.png?text=Gamma+Preview" alt="Project Gamma Preview">
+        </div>
       </div>
     </div>
   </div>
@@ -115,20 +149,17 @@
     const menu = document.getElementById("dropdownMenu");
     let hideTimeout;
 
-    // Show on hover
     btn.addEventListener("mouseenter", () => {
       clearTimeout(hideTimeout);
       menu.classList.add("show");
     });
 
-    // Hide after 3s when leaving
     btn.addEventListener("mouseleave", () => {
       hideTimeout = setTimeout(() => {
         menu.classList.remove("show");
       }, 3000);
     });
 
-    // Also keep it open if hovering inside menu
     menu.addEventListener("mouseenter", () => {
       clearTimeout(hideTimeout);
     });
