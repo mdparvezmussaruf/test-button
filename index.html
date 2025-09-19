@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropdown Button</title>
+  <title>Dropdown Button with Delay</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 50px;
+      text-align: center;
     }
 
     /* Button style */
     .dropdown-btn {
-      background: #e5e7eb; /* light gray */
+      background: #e5e7eb;
       border: none;
       padding: 8px;
       border-radius: 50%;
@@ -31,16 +32,19 @@
       fill: #374151;
     }
 
-    /* Dropdown menu */
+    /* Dropdown wrapper */
     .dropdown {
       position: relative;
       display: inline-block;
     }
 
+    /* Dropdown content */
     .dropdown-content {
       display: none;
       position: absolute;
-      right: 0;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
       margin-top: 8px;
       background: #fff;
       min-width: 200px;
@@ -75,8 +79,8 @@
       text-decoration: underline;
     }
 
-    /* Show menu on hover */
-    .dropdown:hover .dropdown-content {
+    /* Visible class */
+    .show {
       display: block;
     }
   </style>
@@ -84,13 +88,13 @@
 <body>
 
   <div class="dropdown">
-    <button class="dropdown-btn">
+    <button class="dropdown-btn" id="dropdownBtn">
       <!-- Downward arrow (SVG) -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M7 10l5 5 5-5z"/>
       </svg>
     </button>
-    <div class="dropdown-content">
+    <div class="dropdown-content" id="dropdownMenu">
       <div>
         <span>Project Alpha</span>
         <a href="https://example.com/alpha" target="_blank">Visit</a>
@@ -105,6 +109,36 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const btn = document.getElementById("dropdownBtn");
+    const menu = document.getElementById("dropdownMenu");
+    let hideTimeout;
+
+    // Show on hover
+    btn.addEventListener("mouseenter", () => {
+      clearTimeout(hideTimeout);
+      menu.classList.add("show");
+    });
+
+    // Hide after 3s when leaving
+    btn.addEventListener("mouseleave", () => {
+      hideTimeout = setTimeout(() => {
+        menu.classList.remove("show");
+      }, 3000);
+    });
+
+    // Also keep it open if hovering inside menu
+    menu.addEventListener("mouseenter", () => {
+      clearTimeout(hideTimeout);
+    });
+
+    menu.addEventListener("mouseleave", () => {
+      hideTimeout = setTimeout(() => {
+        menu.classList.remove("show");
+      }, 3000);
+    });
+  </script>
 
 </body>
 </html>
