@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropdown with Visit Preview</title>
+  <title>Dropdown with Visit Hover Preview</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -40,7 +40,7 @@
       box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
       border-radius: 8px;
       padding: 10px;
-      z-index: 1;
+      z-index: 10;
     }
 
     .dropdown-item {
@@ -63,12 +63,13 @@
     .preview-box {
       display: none;
       position: absolute;
-      left: 110%;
+      left: 105%;
       width: 150px;
       padding: 10px;
       background: white;
       border-radius: 6px;
       box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+      z-index: 20;
     }
   </style>
 </head>
@@ -87,12 +88,12 @@
         Project Gamma <a href="#" class="preview-link" data-preview="gamma">Visit</a>
       </div>
     </div>
-  </div>
 
-  <!-- Previews -->
-  <div class="preview-box" id="alpha">Alpha Preview</div>
-  <div class="preview-box" id="beta">Beta Preview</div>
-  <div class="preview-box" id="gamma">Gamma Preview</div>
+    <!-- Previews are INSIDE dropdown -->
+    <div class="preview-box" id="alpha">Alpha Preview</div>
+    <div class="preview-box" id="beta">Beta Preview</div>
+    <div class="preview-box" id="gamma">Gamma Preview</div>
+  </div>
 
   <script>
     const dropdown = document.getElementById("dropdown");
@@ -112,7 +113,7 @@
       }, 3000);
     });
 
-    // Handle preview
+    // Handle previews
     const previewLinks = document.querySelectorAll(".preview-link");
     const previews = document.querySelectorAll(".preview-box");
 
@@ -121,12 +122,12 @@
         const targetId = link.getAttribute("data-preview");
         const previewBox = document.getElementById(targetId);
 
-        // hide all previews first
+        // hide all previews
         previews.forEach(p => p.style.display = "none");
 
-        // get link position
+        // position next to hovered Visit link
         const rect = link.getBoundingClientRect();
-        const dropdownRect = link.closest(".dropdown").getBoundingClientRect();
+        const dropdownRect = dropdown.getBoundingClientRect();
 
         previewBox.style.top = (rect.top - dropdownRect.top) + "px";
         previewBox.style.display = "block";
